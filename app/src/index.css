@@ -1,0 +1,33 @@
+@font-face {
+  font-family: "F1Black";
+  src: local("Formula1-Black"), url("./fonts/Formula1-Black.ttf") format("truetype");
+  font-weight: bolder;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "F1Bold";
+  src: local("Formula1-Bold"), url("./fonts/Formula1-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "F1Regular";
+  src: local("Formula1-Regular"), url("./fonts/Formula1-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "F1Wide";
+  src: local("Formula1-Wide"), url("./fonts/Formula1-Wide.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
