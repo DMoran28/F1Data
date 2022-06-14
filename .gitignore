@@ -3,8 +3,8 @@ api/__pycache__/
 api/cache/
 
 # React dependencies.
-web/node_modules/
-web/package-lock.json
+app/node_modules/
+app/package-lock.json
 
 # MacOS files.
 .DS_Store
