@@ -1,3 +1,4 @@
+/* Custom font: F1Black */
 @font-face {
   font-family: "F1Black";
   src: local("Formula1-Black"), url("./fonts/Formula1-Black.ttf") format("truetype");
@@ -5,6 +6,7 @@
   font-style: normal;
 }
 
+/* Custom font: F1Bold */
 @font-face {
   font-family: "F1Bold";
   src: local("Formula1-Bold"), url("./fonts/Formula1-Bold.ttf") format("truetype");
@@ -12,6 +14,7 @@
   font-style: normal;
 }
 
+/* Custom font: F1Regular */
 @font-face {
   font-family: "F1Regular";
   src: local("Formula1-Regular"), url("./fonts/Formula1-Regular.ttf") format("truetype");
@@ -19,6 +22,7 @@
   font-style: normal;
 }
 
+/* Custom font: F1Wide */
 @font-face {
   font-family: "F1Wide";
   src: local("Formula1-Wide"), url("./fonts/Formula1-Wide.ttf") format("truetype");
@@ -26,8 +30,30 @@
   font-style: normal;
 }
 
+/* Variables */
+:root {
+  /* Colors */
+  --background-color-primary: #1e2431;
+  --background-color-secondary: #232937;
+  --color-primary: #ffffff;
+  --color-secondary: #ee0000;
+
+  /* Font Size */
+  font-size: 16px;
+  --font-size-logo: 2rem;
+  --font-size-nav: 1.125rem;
+  --font-size-title: 2.5rem;
+  --font-size-subtitle: 1.5rem;
+  --font-size-dropdown: 1rem;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background-color-secondary);
+  min-height: 100vh;
 }

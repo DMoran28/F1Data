@@ -1,0 +1,60 @@
+/* Select styles */
+.select {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.select-title {
+  display: flex;
+  align-items: center;
+  font-family: F1Bold;
+  font-size: var(--font-size-dropdown);
+  color: var(--color-primary);
+}
+
+/* Select options styles */
+.select-options {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Select option styles */
+.select-option {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 20px;
+  cursor: pointer;
+}
+.select-option-title {
+  font-family: F1Regular;
+  font-size: var(--font-size-dropdown);
+  color: var(--color-primary);
+}
+.select-option-box {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--color-primary);
+}
+.select-option-box div {
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+}
+.select-option-selected {
+  border: 1px solid var(--color-secondary);
+}
+.select-option-selected div {
+  background-color: var(--color-secondary);
+}

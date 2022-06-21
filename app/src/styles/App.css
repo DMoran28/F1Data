@@ -1,9 +1,0 @@
-:root {
-  --color-primary: #1e2431;
-  --color-secondary: #ee0000;
-}
-
-.app {
-  background-color: var(--color-primary);
-  min-height: 100vh;
-}

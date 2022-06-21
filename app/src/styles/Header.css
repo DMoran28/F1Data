@@ -1,0 +1,107 @@
+/* Header styles */
+.header {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background-color-primary);
+  padding: 16px 32px;
+  border-bottom: 3px solid var(--color-secondary);
+}
+
+/* Logo styles */
+.logo {
+  display: flex;
+  align-items: center;
+  font-family: F1Wide;
+  text-decoration: none;
+}
+.logo img {
+  height: var(--font-size-logo);
+}
+.logo span {
+  margin-left: 8px;
+  font-size: var(--font-size-logo);
+  color: var(--color-primary);
+}
+
+/* Navigation bar styles */
+.nav-list {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+.nav-link {
+  font-family: F1Regular;
+  font-size: var(--font-size-nav);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: ease-out .1s;
+}
+.nav-link:hover {
+  color: var(--color-secondary);
+  transition: ease-in .2s;
+}
+.burger {
+  display: none;
+  cursor: pointer;
+}
+
+/* Navigation bar for mobile devices */
+@media screen and (max-width: 810px) {
+  .nav-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color-primary); 
+    padding: 16px 32px;
+    border-bottom: 3px solid var(--color-secondary);
+    transform: translateY(-98%);
+    transform-origin: top;
+    transition: transform .4s ease-in-out;
+  }
+  .nav-item {
+    opacity: 0;
+    margin: 16px 0;
+    transition: opacity .2s ease-in-out;
+  }
+  .burger {
+    display: block;
+  }
+  .burger div {
+    width: 36px;
+    height: 3px;
+    background-color: var(--color-primary);
+    margin: 6px;
+    transition: ease-in-out .2s;
+  } 
+  .burger:hover div {
+    background-color: var(--color-secondary);
+  }
+  .nav-active {
+    transform: translateY(0%);
+  }
+  .nav-active li {
+    opacity: 1;
+    transition: opacity .2s ease-in-out .2s;
+  } 
+  .nav-active .burger-first-line {
+    background-color: var(--color-secondary);
+    transform: rotate(-45deg) translate(-7px, 6px);
+  }
+
+  .nav-active .burger-second-line {
+    opacity: 0;
+  }
+
+  .nav-active .burger-third-line {
+    background-color: var(--color-secondary);
+    transform: rotate(45deg) translate(-6.5px, -6px);
+  }
+}

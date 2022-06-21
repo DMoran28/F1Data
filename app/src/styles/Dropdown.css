@@ -1,0 +1,109 @@
+/* Dropdown styles */
+.dropdown {
+  width: 300px;
+  cursor: pointer;
+}
+.dropdown label {
+  width: 100%;
+  display: block;
+  padding-bottom: 10px;
+  font-family: F1Regular;
+  font-size: var(--font-size-dropdown);
+  color: var(--color-primary);
+  text-align: center;
+}
+
+/* Dropdown header styles */
+.dropdown-header {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--color-primary);
+  border-radius: 5px;
+}
+.dropdown-header span {
+  margin: 0 10px;
+  font-family: F1Regular;
+  font-size: var(--font-size-dropdown);
+  color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dropdown icons styles */
+.dropdown-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+.dropdown-icons .dropdown-expand {
+  height: 40px;
+  border-left: 1px solid var(--color-primary);
+}
+.dropdown-icons .dropdown-loading {
+  display: none;
+  height: 30px;
+  margin-right: 10px;
+  animation: loading 1s ease infinite;
+}
+.dropdown-icons .loading-active {
+  display: block;
+}
+
+/* Dropdown list styles */
+.dropdown-list {
+  position: absolute;
+  width: 300px;
+  max-height: 200px;
+  display: none;
+  background-color: var(--background-color-primary);
+  margin-top: 10px;
+  overflow: auto;
+}
+.dropdown-item button {
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  font-family: F1Regular;
+  font-size: var(--font-size-dropdown);
+  color: var(--color-primary);
+}
+.selected-item button,
+.dropdown-item button:hover {
+  background-color: var(--color-secondary);
+}
+
+/* Dropdown active styles */
+.dropdown-active .dropdown-header .dropdown-icons .dropdown-expand {
+  border-left: 1px solid var(--color-secondary);
+}
+.dropdown-active .dropdown-header {
+  border: 1px solid var(--color-secondary);
+}
+.dropdown-active .dropdown-list {
+  display: block;
+}
+
+/* Dropdown styles for mobile devices */
+@media screen and (max-width: 810px) {
+  .dropdown {
+    width: 500px;
+  }
+  .dropdown-list {
+    width: 500px;
+  }
+}
+
+/* Animation for loading icon */
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

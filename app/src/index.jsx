@@ -1,20 +1,29 @@
 // React dependencies.
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-// App dependencies.
+// React components.
+import Header from "./components/Header";
+import Telemetry from "./components/Telemetry";
+import Stats from "./components/Stats";
+import Championship from "./components/Championship";
+import Prediction from "./components/Prediction";
+
+// Main styles.
 import "./index.css";
-import App from "./components/App";
-
-// Fonts dependencies.
-import "./fonts/Formula1-Black.ttf";
-import "./fonts/Formula1-Bold.ttf";
-import "./fonts/Formula1-Regular.ttf";
-import "./fonts/Formula1-Wide.ttf";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Router>
+    <div className="app">
+      <Header items={["Stats", "Championship", "Prediction"]} />
+      <Routes>
+        <Route exact path="/" element={<Telemetry />} />
+        <Route exact path="/stats" element={<Stats />} />
+        <Route exact path="/championship" element={<Championship />} />
+        <Route exact path="/prediction" element={<Prediction />} />
+      </Routes>
+    </div>
+  </Router>
 );
