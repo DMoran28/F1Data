@@ -34,7 +34,7 @@ async def get_schedule(year):
         if schedule.at[index, "RoundNumber"] != 0
     ]
 
-    return gps
+    return list(reversed(gps))
 
 
 """
@@ -58,7 +58,7 @@ async def get_event(year, event):
         for index, session in enumerate(sessions) if datetime.now() > dates[index]
     ]
 
-    return sessions
+    return list(reversed(sessions))
 
 
 """
