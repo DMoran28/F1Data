@@ -15,13 +15,18 @@ import SoftTyre from "../img/soft-compound.png";
 // Telemetry component.
 function Telemetry() {
   // Seasons of Formula 1.
-  const years = [
-    { id: 1, value: 2018 },
-    { id: 2, value: 2019 },
-    { id: 3, value: 2020 },
-    { id: 4, value: 2021 },
-    { id: 5, value: 2022 },
-  ];
+  function selectYearsFrom(start) {
+    let data = [];
+    const seasons = [...Array(new Date().getFullYear() - start + 1).keys()].map(i => i + start);
+
+    let i = 1;
+    for (const year of seasons.reverse()) {
+      data.push({id: i++, value: year});
+    }
+
+    return data;
+  }
+  const years = selectYearsFrom(2018);
 
   // States to save the parameters of the API call.
   const [year, setYear] = useState(0);
