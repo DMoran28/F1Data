@@ -4,11 +4,6 @@ import React, { useState, useEffect } from "react";
 // Dropdown styles.
 import "../styles/Dropdown.css";
 
-// Images and icons.
-import ExpandMore from "../img/expand-more.svg";
-import ExpandLess from "../img/expand-less.svg";
-import SoftTyre from "../img/soft-compound.png";
-
 function Dropdown(props) {
   // State to save the selected item and check if the dropdown is open or not.
   const [isOpen, setIsOpen] = useState(false);
@@ -47,12 +42,12 @@ function Dropdown(props) {
             className={`dropdown-loading ${
               props.loading ? "loading-active" : ""
             }`}
-            src={SoftTyre}
+            src={require("../img/soft-compound.png")}
             alt="Loading's icon"
           />
           <img
             className="dropdown-expand"
-            src={`${isOpen ? ExpandLess : ExpandMore}`}
+            src={`${isOpen ? require("../img/expand-less.svg") : require("../img/expand-more.svg")}`}
             alt={`Expand ${isOpen ? "Less" : "More"}'s Icon`}
           />
         </div>

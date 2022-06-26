@@ -5,9 +5,6 @@ import { Link } from "react-router-dom";
 // Header styles.
 import "../styles/Header.css";
 
-// Images and icons.
-import F1 from "../img/F1.png";
-
 // Header component.
 function Header(props) {
   // State to set open the navigation bar.
@@ -25,7 +22,7 @@ function Header(props) {
         className="logo"
         onClick={() => (isOpen ? handleClick() : null)}
       >
-        <img className="logo-img" src={F1} alt="Formula 1's logo" />
+        <img className="logo-img" src={require("../img/F1.png")} alt="Formula 1's logo" />
         <span className="logo-title">Data</span>
       </Link>
       {props.items.length !== 0 && (

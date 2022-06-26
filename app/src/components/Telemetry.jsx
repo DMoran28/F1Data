@@ -9,9 +9,6 @@ import LineChart from "./LineChart";
 // Telemetry styles.
 import "../styles/Telemetry.css";
 
-// Images and icons.
-import SoftTyre from "../img/soft-compound.png";
-
 // Telemetry component.
 function Telemetry() {
   // Seasons of Formula 1.
@@ -289,7 +286,7 @@ function Telemetry() {
           />
         </div>
       </div>
-      {loadingChart && <img className="loading-chart" src={SoftTyre} alt="Loading's icon"/>}
+      {loadingChart && <img className="loading-chart" src={require("../img/soft-compound.png")} alt="Loading's icon"/>}
       <div className={`telemetry-container ${displayChart ? "" : "hide-telemetry-container"}`}>
         <LineChart 
           item={timeDataset}
@@ -318,7 +315,7 @@ function Telemetry() {
             <div className="telemetry-loading-container"> 
               <img 
                 className="loading-chart"
-                src={SoftTyre} 
+                src={require("../img/soft-compound.png")}
                 alt="Loading's icon" 
               />
             </div>
