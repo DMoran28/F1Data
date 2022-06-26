@@ -49,6 +49,10 @@ function LineChart(props) {
       borderColor: props.item.color,
       spanGaps: true,
       pointBackgroundColor: props.item.color,
+      interaction: {
+        intersect: false,
+        mode: 'index'
+      },
       plugins: {
         legend: {
           display: false

@@ -70,7 +70,7 @@ function Telemetry() {
   // State to show the telemetry.
   const [displayTelemetry, setDisplayTelemetry] = useState(false);
   const [lap, setLap] = useState(0);
-  const [type, setType] = useState("Speed")
+  const [type, setType] = useState("Speed");
 
   // Callback functions.
   async function callbackYear(_year) {
