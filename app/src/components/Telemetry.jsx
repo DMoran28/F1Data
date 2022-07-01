@@ -292,10 +292,7 @@ function Telemetry() {
           item={timeDataset}
           xlabel="Number of laps"
           ylabel="Seconds"
-          callbacks={{
-            title: (item) => {
-              return item[0].dataset.label;
-            },
+          tooltip={{
             label: (item) => {
               return "Lap " + item.label + ": " + item.formattedValue;
             }
@@ -326,12 +323,9 @@ function Telemetry() {
         <div className="telemetry-container" id="telemetry">
           <LineChart 
             item={telemetryDataset}
-            xlabel="Track length"
+            xlabel="Track length (m)"
             ylabel=""
-            callbacks={{
-              title: (item) => {
-                return item[0].dataset.label;
-              },
+            tooltip={{
               label: (item) => {
                 return item.formattedValue;
               }

@@ -67,7 +67,12 @@ function LineChart(props) {
           },
           borderColor: "rgba(255,255,255,0.7)",
           borderWidth: 1,
-          callbacks: props.callbacks
+          callbacks: {
+            title: (item) => {
+              return item[0].dataset.label;
+            }, 
+            ...props.tooltip
+          }
         },
       },
       scales: {
