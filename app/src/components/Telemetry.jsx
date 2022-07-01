@@ -67,7 +67,9 @@ function Telemetry() {
   // State to show the telemetry.
   const [displayTelemetry, setDisplayTelemetry] = useState(false);
   const [lap, setLap] = useState(0);
-  const [type, setType] = useState("Speed");
+
+  const units = {Speed: "km/h", Throttle: "%", nGear: "#", RPM: "#"};
+  const [type, setType] = useState("");
 
   // Callback functions.
   async function callbackYear(_year) {
@@ -239,7 +241,7 @@ function Telemetry() {
     setLap(item.label);
 
     // Callback to the API for the data.
-    callbackTelemetry(type, item.label);
+    callbackTelemetry("Speed", item.label);
   }
 
   return (
@@ -291,10 +293,10 @@ function Telemetry() {
         <LineChart 
           item={timeDataset}
           xlabel="Number of laps"
-          ylabel="Seconds"
+          ylabel="Seconds (s)"
           tooltip={{
             label: (item) => {
-              return "Lap " + item.label + ": " + item.formattedValue;
+              return `Lap ${item.label}: ${item.formattedValue}s`;
             }
           }}
           select={selectLap}
@@ -305,7 +307,7 @@ function Telemetry() {
           <span className="telemetry-container-span">Lap {lap}</span>
           <Select 
             title="Select the data to show" 
-            items={["Speed", "Throttle", "nGear", "RPM"]}
+            items={Object.keys(units)}
             callback={callbackTelemetry}
           />
           {loadingTelemetry && (
@@ -324,10 +326,10 @@ function Telemetry() {
           <LineChart 
             item={telemetryDataset}
             xlabel="Track length (m)"
-            ylabel=""
+            ylabel={`${type} (${units[type]})`}
             tooltip={{
               label: (item) => {
-                return item.formattedValue;
+                return `${item.formattedValue}${units[type]}`;
               }
             }}
             select={() => {}}
