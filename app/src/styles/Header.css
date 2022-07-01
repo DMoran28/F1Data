@@ -28,10 +28,10 @@
 
 /* Navigation bar styles */
 .nav-list {
-  width: 400px;
   display: flex;
   justify-content: space-between;
   list-style: none;
+  column-gap: 100px;
 }
 .nav-link {
   font-family: F1Regular;
