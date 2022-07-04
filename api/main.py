@@ -16,7 +16,7 @@ app.add_middleware(
 )
 
 """
-    API endpoint for obtaining the schedule of the official Formula 1 calendar 
+    API endpoint for obtaining the schedule of the official Formula 1 calendar
     by a given year.
 """
 @app.get("/api/schedule/{year}")
@@ -30,16 +30,17 @@ async def get_schedule(year):
             "id": int(schedule.at[index, "RoundNumber"]),
             "value": schedule.at[index, "EventName"],
         }
-        for index in schedule.index if datetime.now() > schedule.at[index, "Session1Date"]
-        if schedule.at[index, "RoundNumber"] != 0
+        for index in schedule.index 
+        if datetime.now() > schedule.at[index, "Session1Date"] 
+        and schedule.at[index, "RoundNumber"] != 0
     ]
 
     return list(reversed(gps))
 
 
 """
-    API endpoint for obtaining the different sessions (practice, qualifying, race...)
-    by a given grand prix.
+    API endpoint for obtaining the different sessions (practice, qualifying,
+    race, etc.) by a given Grand Prix.
 """
 @app.get("/api/schedule/{year}/{event}")
 async def get_event(year, event):
@@ -50,12 +51,17 @@ async def get_event(year, event):
     sessions = event[
         ["Session1", "Session2", "Session3", "Session4", "Session5"]
     ].tolist()
-    dates = event[
-        ["Session1Date", "Session2Date", "Session3Date", "Session4Date", "Session5Date"]
-    ].tolist()
+    dates = event[[
+        "Session1Date", 
+        "Session2Date", 
+        "Session3Date", 
+        "Session4Date",
+        "Session5Date"
+    ]].tolist()
     sessions = [
         {"id": index + 1, "value": session} 
-        for index, session in enumerate(sessions) if datetime.now() > dates[index]
+        for index, session in enumerate(sessions)
+        if datetime.now() > dates[index]
     ]
 
     return list(reversed(sessions))
@@ -87,14 +93,18 @@ async def get_driver(year, event, session, driver):
     session.load(messages=False)
 
     # Get the laptime of the driver.
-    driver_number = session.results.loc[session.results["FullName"] == driver, "DriverNumber"].values[0]
+    driver_number = session.results.loc[
+        session.results["FullName"] == driver, "DriverNumber"
+    ].values[0]
     data = session.laps.pick_driver(driver_number)[["LapNumber", "LapTime"]]
 
     return {
         "labels": data["LapNumber"].tolist(), 
         "scores": data["LapTime"].tolist(),
         "driver": driver,
-        "color": session.results.loc[session.results["DriverNumber"] == driver_number, "TeamColor"].values[0]
+        "color": session.results.loc[
+            session.results["DriverNumber"] == driver_number, "TeamColor"
+        ].values[0]
     }
 
 """
@@ -107,14 +117,20 @@ async def get_telemetry(year, event, session, driver, lap, tel_type):
     session.load(messages=False)
 
     # Get the laptime of the driver.
-    driver_number = session.results.loc[session.results["FullName"] == driver, "DriverNumber"].values[0]
+    driver_number = session.results.loc[
+        session.results["FullName"] == driver, "DriverNumber"
+    ].values[0]
     laps = session.laps.pick_driver(driver_number)
-    data = laps[laps["LapNumber"] == int(lap)].iloc[0].get_telemetry()[[tel_type, "Distance"]]
+    data = laps[
+        laps["LapNumber"] == int(lap)
+    ].iloc[0].get_telemetry()[[tel_type, "Distance"]]
     data["Distance"] = round(data["Distance"])
 
     return {
         "labels": data["Distance"].tolist(), 
         "scores": data[tel_type].tolist(),
         "driver": driver,
-        "color": session.results.loc[session.results["DriverNumber"] == driver_number, "TeamColor"].values[0]
+        "color": session.results.loc[
+            session.results["DriverNumber"] == driver_number, "TeamColor"
+        ].values[0]
     }
