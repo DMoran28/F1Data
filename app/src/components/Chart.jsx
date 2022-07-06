@@ -27,7 +27,7 @@ ChartJS.register(
   Filler
 );
 
-function LineChart(props) {
+function Chart(props) {
   const [data, setData] = useState({
     labels: [],
     datasets: [{ data: [] }]
@@ -135,4 +135,4 @@ function LineChart(props) {
   );
 }
 
-export default LineChart;
+export default Chart;

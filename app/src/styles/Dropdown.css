@@ -71,6 +71,7 @@
   font-family: F1Regular;
   font-size: var(--font-size-dropdown);
   color: var(--color-primary);
+  cursor: pointer;
 }
 .selected-item button,
 .dropdown-item button:hover {

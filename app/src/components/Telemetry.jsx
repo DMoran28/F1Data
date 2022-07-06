@@ -4,7 +4,7 @@ import React, { useState } from "react";
 // React components.
 import Dropdown from "./Dropdown";
 import Select from "./Select";
-import LineChart from "./LineChart";
+import Chart from "./Chart";
 
 // Telemetry styles.
 import "../styles/Telemetry.css";
@@ -245,12 +245,12 @@ function Telemetry() {
   }
 
   return (
-    <div className="telemetry">
-      <div className="title-telemetry">
+    <div className="container">
+      <div className="container-title">
         <h1>Telemetry</h1>
         <h2>Select the driver from a session!</h2>
       </div>
-      <div className="dropdown-telemetry">
+      <div className="container-dropdown">
         <div className="dropdown-container">
           <Dropdown
             title="Select year"
@@ -290,7 +290,7 @@ function Telemetry() {
       </div>
       {loadingChart && <img className="loading-chart" src={require("../img/soft-compound.png")} alt="Loading's icon"/>}
       <div className={`telemetry-container ${displayChart ? "" : "hide-telemetry-container"}`}>
-        <LineChart 
+        <Chart 
           item={timeDataset}
           xlabel="Number of laps"
           ylabel="Seconds (s)"
@@ -323,7 +323,7 @@ function Telemetry() {
       }
       {displayTelemetry && (
         <div className="telemetry-container" id="telemetry">
-          <LineChart 
+          <Chart 
             item={telemetryDataset}
             xlabel="Track length (m)"
             ylabel={`${type} (${units[type]})`}
