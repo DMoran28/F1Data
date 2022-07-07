@@ -24,8 +24,6 @@ const Stats = () => {
   // Auxiliary object.
   const compound_colors = {
     "#FF3333": "SOFT",
-    "#FF3333": "SUPERSOFT",
-    "#FF3333": "HYPERSOFT",
     "#FFF200": "MEDIUM",
     "#EBEBEB": "HARD",
     "#39B54A": "INTERMEDIATE",
