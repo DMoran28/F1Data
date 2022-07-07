@@ -1,0 +1,230 @@
+{
+    "drivers": [
+        {
+            "id": 0,
+            "name": "Lewis Hamilton"
+        },
+        {
+            "id": 1,
+            "name": "Max Verstappen"
+        },
+        {
+            "id": 2,
+            "name": "Valtteri Bottas"
+        },
+        {
+            "id": 3,
+            "name": "Lando Norris"
+        },
+        {
+            "id": 4,
+            "name": "Sergio Perez"
+        },
+        {
+            "id": 5,
+            "name": "Charles Leclerc"
+        },
+        {
+            "id": 6,
+            "name": "Daniel Ricciardo"
+        },
+        {
+            "id": 7,
+            "name": "Carlos Sainz"
+        },
+        {
+            "id": 8,
+            "name": "Yuki Tsunoda"
+        },
+        {
+            "id": 9,
+            "name": "Lance Stroll"
+        },
+        {
+            "id": 10,
+            "name": "Kimi Räikkönen"
+        },
+        {
+            "id": 11,
+            "name": "Antonio Giovinazzi"
+        },
+        {
+            "id": 12,
+            "name": "Esteban Ocon"
+        },
+        {
+            "id": 13,
+            "name": "George Russell"
+        },
+        {
+            "id": 14,
+            "name": "Sebastian Vettel"
+        },
+        {
+            "id": 15,
+            "name": "Mick Schumacher"
+        },
+        {
+            "id": 16,
+            "name": "Pierre Gasly"
+        },
+        {
+            "id": 17,
+            "name": "Nicholas Latifi"
+        },
+        {
+            "id": 18,
+            "name": "Fernando Alonso"
+        },
+        {
+            "id": 19,
+            "name": "Nikita Mazepin"
+        }
+    ],
+    "teams": [
+        {
+            "id": 0,
+            "name": "Mercedes"
+        },
+        {
+            "id": 1,
+            "name": "Red Bull Racing"
+        },
+        {
+            "id": 2,
+            "name": "McLaren"
+        },
+        {
+            "id": 3,
+            "name": "Ferrari"
+        },
+        {
+            "id": 4,
+            "name": "AlphaTauri"
+        },
+        {
+            "id": 5,
+            "name": "Aston Martin"
+        },
+        {
+            "id": 6,
+            "name": "Alfa Romeo Racing"
+        },
+        {
+            "id": 7,
+            "name": "Alpine"
+        },
+        {
+            "id": 8,
+            "name": "Williams"
+        },
+        {
+            "id": 9,
+            "name": "Haas F1 Team"
+        }
+    ],
+    "circuits": [
+        {
+            "id": 0,
+            "name": "Bahrain Grand Prix"
+        },
+        {
+            "id": 1,
+            "name": "Emilia Romagna Grand Prix"
+        },
+        {
+            "id": 2,
+            "name": "Portuguese Grand Prix"
+        },
+        {
+            "id": 3,
+            "name": "Spanish Grand Prix"
+        },
+        {
+            "id": 4,
+            "name": "Monaco Grand Prix"
+        },
+        {
+            "id": 5,
+            "name": "Azerbaijan Grand Prix"
+        },
+        {
+            "id": 6,
+            "name": "French Grand Prix"
+        },
+        {
+            "id": 7,
+            "name": "Styrian Grand Prix"
+        },
+        {
+            "id": 8,
+            "name": "Austrian Grand Prix"
+        },
+        {
+            "id": 9,
+            "name": "British Grand Prix"
+        },
+        {
+            "id": 10,
+            "name": "Hungarian Grand Prix"
+        },
+        {
+            "id": 11,
+            "name": "Dutch Grand Prix"
+        },
+        {
+            "id": 12,
+            "name": "Italian Grand Prix"
+        },
+        {
+            "id": 13,
+            "name": "Turkish Grand Prix"
+        },
+        {
+            "id": 14,
+            "name": "United States Grand Prix"
+        },
+        {
+            "id": 15,
+            "name": "Mexico City Grand Prix"
+        },
+        {
+            "id": 16,
+            "name": "São Paulo Grand Prix"
+        },
+        {
+            "id": 17,
+            "name": "Qatar Grand Prix"
+        },
+        {
+            "id": 18,
+            "name": "Saudi Arabian Grand Prix"
+        },
+        {
+            "id": 19,
+            "name": "Abu Dhabi Grand Prix"
+        }
+    ],
+    "compounds": [
+        {
+            "id": 0,
+            "compound": "SOFT"
+        },
+        {
+            "id": 1,
+            "compound": "MEDIUM"
+        },
+        {
+            "id": 2,
+            "compound": "HARD"
+        },
+        {
+            "id": 3,
+            "compound": "INTERMEDIATE"
+        },
+        {
+            "id": 4,
+            "compound": "WET"
+        }
+    ]
+}

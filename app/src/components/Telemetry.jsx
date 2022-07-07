@@ -4,7 +4,7 @@ import React, { useState } from "react";
 // React components.
 import Dropdown from "./Dropdown";
 import Select from "./Select";
-import Chart from "./Chart";
+import LineChart from "./LineChart";
 
 // Telemetry styles.
 import "../styles/Telemetry.css";
@@ -212,11 +212,11 @@ function Telemetry() {
     // Set the type of telemetry.
     setType(item);
 
-    // Hide the chart.
-    setDisplayTelemetry(false);
-
     // Display loading icon.
     setLoadingTelemetry(true);
+
+    // Hide the chart.
+    setDisplayTelemetry(false);
 
     // Set the lap.
     if (_lap === undefined) _lap = lap;
@@ -229,11 +229,11 @@ function Telemetry() {
     // Set the new dataset of the chart.
     setTelemetryDataset(response);
 
-    // Hide the loading icon.
-    setLoadingTelemetry(false);
-
     // Display the telemetry chart.
     setDisplayTelemetry(true);
+    
+    // Hide the loading icon.
+    setLoadingTelemetry(false);
   }
 
   async function selectLap(item) {
@@ -288,9 +288,17 @@ function Telemetry() {
           />
         </div>
       </div>
-      {loadingChart && <img className="loading-chart" src={require("../img/soft-compound.png")} alt="Loading's icon"/>}
-      <div className={`telemetry-container ${displayChart ? "" : "hide-telemetry-container"}`}>
-        <Chart 
+      {loadingChart && 
+        <img 
+          className="loading-chart"
+          src={require("../img/soft-compound.png")}
+          alt="Loading's icon"
+        />
+      }
+      <div className={
+        `container-chart ${displayChart ? "" : "hide-container"}`
+      }>
+        <LineChart
           item={timeDataset}
           xlabel="Number of laps"
           ylabel="Seconds (s)"
@@ -303,7 +311,7 @@ function Telemetry() {
         />
       </div>
       {(displayTelemetry || loadingTelemetry) &&
-        <div className="telemetry-container">
+        <div className="container-chart">
           <span className="telemetry-container-span">Lap {lap}</span>
           <Select 
             title="Select the data to show" 
@@ -322,8 +330,8 @@ function Telemetry() {
         </div>
       }
       {displayTelemetry && (
-        <div className="telemetry-container" id="telemetry">
-          <Chart 
+        <div className="container-chart" id="telemetry">
+          <LineChart
             item={telemetryDataset}
             xlabel="Track length (m)"
             ylabel={`${type} (${units[type]})`}
