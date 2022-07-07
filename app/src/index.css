@@ -120,3 +120,8 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* Chart styles */
+.chart {
+  max-height: 650px;
+}

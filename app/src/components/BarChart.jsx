@@ -39,6 +39,7 @@ function BarChart(props) {
     });
     
     setOptions({
+      maintainAspectRatio: false,
       barThickness: 30,
       indexAxis: 'y',
       elements: { bar: { borderWidth: 2} },
@@ -59,8 +60,8 @@ function BarChart(props) {
       scales: {
         x: {
           stacked: props.stacked,
-          min: 50,
-          max: 100,
+          min: props.ticks[0],
+          max: props.ticks[1],
           title: {
             display: props.axis,
             color: "rgba(255, 255, 255, 0.6)",
@@ -78,6 +79,7 @@ function BarChart(props) {
           }
         },
         y: {
+          stacked: props.stacked,
           title: {
             display: true,
             color: "rgba(255, 255, 255, 0.6)",
@@ -102,7 +104,7 @@ function BarChart(props) {
   }, [props.item]);
 
   return (
-    <Bar data={data} options={options} />
+    <Bar className="chart" data={data} options={options} />
   );
 }
 

@@ -299,15 +299,20 @@ function Telemetry() {
         `container-chart ${displayChart ? "" : "hide-container"}`
       }>
         <LineChart
-          item={timeDataset}
+          labels={timeDataset.labels}
+          items={timeDataset.items}
           xlabel="Number of laps"
           ylabel="Seconds (s)"
           tooltip={{
+            title: (item) => { return item[0].dataset.label; },
             label: (item) => {
               return `Lap ${item.label}: ${item.formattedValue}s`;
             }
           }}
           select={selectLap}
+          pointBorderWidth={1}
+          pointRadius={4}
+          tickCallback={() => {}}
         />
       </div>
       {(displayTelemetry || loadingTelemetry) &&
@@ -332,10 +337,12 @@ function Telemetry() {
       {displayTelemetry && (
         <div className="container-chart" id="telemetry">
           <LineChart
-            item={telemetryDataset}
+            labels={telemetryDataset.labels}
+            items={telemetryDataset.items}
             xlabel="Track length (m)"
             ylabel={`${type} (${units[type]})`}
             tooltip={{
+              title: (item) => { return item[0].dataset.label; },
               label: (item) => {
                 return `${item.formattedValue}${units[type]}`;
               }
@@ -343,6 +350,7 @@ function Telemetry() {
             select={() => {}}
             pointBorderWidth={0}
             pointRadius={1}
+            tickCallback={() => {}}
           />
         </div>
       )}

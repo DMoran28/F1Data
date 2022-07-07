@@ -6,9 +6,6 @@ import Dropdown from "./Dropdown";
 import Select from "./Select";
 import BarChart from "./BarChart";
 
-// Prediction styles.
-import "../styles/Prediction.css";
-
 // Prediction component.
 const Prediction = () => {
   // Circuits to evaluate the trained model and predict the results of the
@@ -105,6 +102,7 @@ const Prediction = () => {
             }}
             stacked={false}
             axis={false}
+            ticks={[50, 100]}
           />
           <BarChart
             items={items.itemsNPoints}
@@ -116,6 +114,7 @@ const Prediction = () => {
             }}
             stacked={false}
             axis={true}
+            ticks={[50, 100]}
           />
         </div>
       )}

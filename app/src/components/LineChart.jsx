@@ -37,42 +37,29 @@ function LineChart(props) {
 
   useEffect(() => {
     setData({
-      labels: props.item.labels,
-      datasets: [{ label: props.item.driver, data: props.item.scores, tension: 0.3 }]
+      labels: props.labels,
+      datasets: props.items
     });
+    
     setOptions({
+      maintainAspectRatio: false,
       pointBorderColor: "rgb(255, 255, 255)",
-      pointBorderWidth: props.pointBorderWidth === undefined ? 1 : props.pointBorderWidth,
-      pointRadius: props.pointRadius === undefined ? 4 : props.pointRadius,
+      pointBorderWidth: props.pointBorderWidth,
+      pointRadius: props.pointRadius,
       pointHoverRadius: 10,
       pointHoverBorderWidth: 3,
-      borderColor: props.item.color,
       spanGaps: true,
-      pointBackgroundColor: props.item.color,
-      interaction: {
-        intersect: false,
-        mode: 'index'
-      },
+      interaction: { intersect: false, mode: 'index' },
       plugins: {
-        legend: {
-          display: false
-        },
+        legend: { display: false },
         tooltip: {
+          itemSort: (a, b) => { return b.raw - a.raw; },
           backgroundColor: "#1e2431",
-          titleFont: {
-            family: "F1Bold"
-          },
-          bodyFont: {
-            family: "F1Regular"
-          },
+          titleFont: { family: "F1Bold" },
+          bodyFont: { family: "F1Regular" },
           borderColor: "rgba(255,255,255,0.7)",
           borderWidth: 1,
-          callbacks: {
-            title: (item) => {
-              return item[0].dataset.label;
-            }, 
-            ...props.tooltip
-          }
+          callbacks: {...props.tooltip}
         },
       },
       scales: {
@@ -81,46 +68,37 @@ function LineChart(props) {
             display: true,
             color: "rgba(255, 255, 255, 0.6)",
             text: props.xlabel,
-            font: {
-              family: "F1Regular"
-            }
+            font: { family: "F1Regular" }
+          },
+          grid: { 
+            color: "rgba(255, 255, 255, 0.1)",
+            borderDash: [10, 10]
           },
           ticks: {
             color: "rgba(255, 255, 255, 0.7)",
-            font: {
-              size: 12,
-              family: "F1Regular"
-            }
+            font: { size: 12, family: "F1Regular" }
           },
-          grid: {
-            color: "rgba(255, 255, 255, 0.1)",
-            borderDash: [10, 10]
-          }
         },
         y: {
           title: {
             display: true,
             color: "rgba(255, 255, 255, 0.6)",
             text: props.ylabel,
-            font: {
-              family: "F1Regular"
-            }
-          },
-          ticks: {
-            color: "rgba(255, 255, 255, 0.7)",
-            font: {
-              size: 12,
-              family: "F1Regular"
-            }
+            font: { family: "F1Regular" }
           },
           grid: {
             color: "rgba(255, 255, 255, 0.1)",
             borderDash: [10, 10]
-          }
+          },
+          ticks: {
+            color: "rgba(255, 255, 255, 0.7)",
+            font: { size: 12, family: "F1Regular" },
+            callback: props.itemCallback
+          },
         }
       }
     });
-  }, [props.item]);
+  }, [props.items]);
   
   const chartRef = useRef();
   const onClick = (event) => {
@@ -131,7 +109,13 @@ function LineChart(props) {
   };
 
   return (
-    <Line ref={chartRef} data={data} options={options} onClick={onClick} />
+    <Line 
+      className="chart"
+      ref={chartRef}
+      data={data}
+      options={options}
+      onClick={onClick} 
+    />
   );
 }
 

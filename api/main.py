@@ -20,6 +20,16 @@ app.add_middleware(
 )
 
 """
+    This function gives to every circuit of the dataset a unique identifier.
+"""
+def check_circuit(circuit):
+    with open("datasets/auxiliar_data.json", 'r', encoding="utf8") as file:
+        data= json.load(file)
+    return next(
+        item["id"] for item in data["circuits"] if item["name"] == circuit
+    )
+
+"""
     API endpoint for obtaining the schedule of the official Formula 1 calendar
     by a given year.
 """
@@ -87,6 +97,7 @@ async def get_session(year, event, session):
     ]
     return drivers
 
+
 """
     API endpoint for obtaining the laptime of a given driver in a given session.
 """
@@ -101,15 +112,21 @@ async def get_driver(year, event, session, driver):
         session.results["FullName"] == driver, "DriverNumber"
     ].values[0]
     data = session.laps.pick_driver(driver_number)[["LapNumber", "LapTime"]]
+    color = session.results.loc[
+        session.results["DriverNumber"] == driver_number, "TeamColor"
+    ].values[0]
 
     return {
         "labels": data["LapNumber"].tolist(), 
-        "scores": data["LapTime"].tolist(),
-        "driver": driver,
-        "color": session.results.loc[
-            session.results["DriverNumber"] == driver_number, "TeamColor"
-        ].values[0]
+        "items": [{
+            "label": driver,
+            "data": data["LapTime"].tolist(),
+            "tension": 0.3,
+            "borderColor": color,
+            "backgroundColor": color
+        }]
     }
+
 
 """
     API endpoint to get the telemetry of a given driver in a given session.
@@ -129,14 +146,18 @@ async def get_telemetry(year, event, session, driver, lap, tel_type):
         laps["LapNumber"] == int(lap)
     ].iloc[0].get_telemetry()[[tel_type, "Distance"]]
     data["Distance"] = round(data["Distance"])
-
+    color = session.results.loc[
+        session.results["DriverNumber"] == driver_number, "TeamColor"
+    ].values[0]
     return {
         "labels": data["Distance"].tolist(), 
-        "scores": data[tel_type].tolist(),
-        "driver": driver,
-        "color": session.results.loc[
-            session.results["DriverNumber"] == driver_number, "TeamColor"
-        ].values[0]
+        "items": [{
+            "label": driver,
+            "data": data[tel_type].tolist(),
+            "tension": 0.3,
+            "borderColor": color,
+            "backgroundColor": color
+        }]
     }
 
 
@@ -217,12 +238,158 @@ def get_prediction(event, cluster):
         "labelsNPoints": labels_npoints
     }
 
+
 """
-    This function gives to every circuit of the dataset a unique identifier.
+    API endpoint for obtaining the schedule of the official Formula 1 calendar
+    by a given season. It only returns those grand prix that have finished,
+    including all the sessions availables.
 """
-def check_circuit(circuit):
-    with open("datasets/auxiliar_data.json", 'r', encoding="utf8") as file:
-        data= json.load(file)
-    return next(
-        item["id"] for item in data["circuits"] if item["name"] == circuit
-    )
+@app.get("/api/stats/{year}")
+async def get_schedule_stats(year):
+    # Get the schedule from the FastF1 API.
+    schedule = ff1.get_event_schedule(int(year))
+
+    # Get the ID and name of the grand prixes in the schedule.
+    gps = [
+        {
+            "id": int(schedule.at[index, "RoundNumber"]),
+            "value": schedule.at[index, "EventName"],
+        }
+        for index in schedule.index 
+        if datetime.now() > schedule.at[index, "Session5Date"] 
+        and schedule.at[index, "RoundNumber"] != 0
+    ]
+
+    return list(reversed(gps))
+
+
+"""
+    This API endpoint will return various stats of a grand prix by a given 
+    season. The stats will vary between qualifying times of every driver, race strategies of every driver (compounds), points obtained in the race and
+    the championship points until that race.
+"""
+@app.get("/api/stats/{year}/{event}")
+def get_stats(year, event):
+    season = int(year) # Season of Fórmula 1 to gather the data.
+
+    # Qualifying data to gather all the stats.
+    qualifying = ff1.get_session(season, event, 'Q')
+    qualifying.load(weather=False, messages=False)
+
+    # Race session data to gather all the stats. 
+    race = ff1.get_session(season, event, 'R')
+    race.load(weather=False, messages=False)
+
+    # Get the laptime of every driver and save the data.
+    items, labels, colors = [], [], []
+    for driver in qualifying.results.index:
+        labels.append(qualifying.results.at[driver, "FullName"])
+        colors.append(qualifying.results.at[driver, "TeamColor"])
+        lap = qualifying.laps.pick_driver(driver).pick_fastest()
+        items.append(lap["LapTime"].total_seconds())
+    
+    quali_times = {
+        "items": [{
+            "data": items,
+            "backgroundColor": colors
+        }],
+        "labels": labels,
+    }
+
+    # Get the stint duration of every driver.
+    driver_stints = race.laps[
+        ["DriverNumber", "Stint", "Compound", "LapNumber"]
+    ].groupby(["DriverNumber", "Stint", "Compound"]).count().reset_index()
+    driver_stints = driver_stints.rename(columns={"LapNumber": "Length"})
+    driver_stints["Stint"] = driver_stints["Stint"].astype("int64")
+
+    compound_colors = {
+        "SOFT": "#FF3333",
+        "MEDIUM": "#FFF200",
+        "HARD": "#EBEBEB",
+        "INTERMEDIATE": "#39B54A",
+        "WET": "#00AEEF",
+        "UNKNOWN": "gray"
+    }
+
+    labels = []
+    for index in race.results.index:
+        labels.append(race.results.at[index, "FullName"])
+    
+    items = []
+    for stint in range(0, driver_stints["Stint"].max()):
+        data, colors = [], []
+        for index, driver in enumerate(race.results.index):
+            stints = driver_stints.loc[
+                driver_stints["DriverNumber"] == driver 
+            ].reset_index(drop=True)
+
+            if stint in stints.index:
+                compound = stints.at[stint, "Compound"]
+                colors.append(compound_colors[compound])
+                data.append(int(stints.at[stint, "Length"]))
+            else:
+                data.append(0)
+                colors.append("gray")
+        
+        items.append({
+            "data": data,
+            "backgroundColor": colors,
+            "borderColor": "black"
+        })
+    
+    race_strat = {
+        "laps": int(race.laps["LapNumber"].max()),
+        "items": items,
+        "labels": labels
+    }
+
+    # Get the championship points of every driver:
+    schedule = ff1.get_event_schedule(season)
+
+    races, labels, drivers = [], [], set()
+    for index in schedule.index:
+        if schedule.at[index, "RoundNumber"] != 0: 
+            labels.append(schedule.at[index, "Location"])
+            race = ff1.get_session(
+                season, schedule.at[index, "RoundNumber"], 'R'
+            )
+            race.load(
+                laps=False, telemetry=False, weather=False, messages=False
+            )
+            races.append(race)
+
+            for driver in race.drivers:
+                drivers.add(driver)
+        if schedule.at[index, "EventName"] == event: break
+    
+    items = []
+    for driver in drivers:
+        data, prev = [], 0
+        for race in races:
+            result = race.results.loc[race.results["DriverNumber"] == driver]
+            if not result.empty:
+                points = int(result["Points"].tolist()[0]) + prev
+                name = result["FullName"].tolist()[0]
+                color = result["TeamColor"].tolist()[0]
+            else:
+                points = 0 + prev
+            prev = points
+            data.append(points)
+        items.append({
+            "data": data,
+            "borderColor": color,
+            "backgroundColor": color,
+            "label": name
+        })
+    
+    cham_points = {
+        "items": items,
+        "labels": labels
+    }
+
+    return {
+        "qualiTimes": quali_times,
+        "raceStrat": race_strat,
+        "chamPoints": cham_points
+    }

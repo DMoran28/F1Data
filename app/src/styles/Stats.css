@@ -1,7 +1,10 @@
-.span {
+.container-description {
+  display: block;
   width: 100%;
-  text-align: center;
-  margin-top: 100px;
-  color: white;
-  font-family: F1Black;
+  margin-bottom: 20px;
+  padding: 0 0 10px 20px;
+  font-family: "F1Bold";
+  font-size: var(--font-size-subtitle);
+  color: var(--color-primary);
+  border-bottom: 3px solid var(--color-secondary);
 }
