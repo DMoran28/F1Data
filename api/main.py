@@ -283,10 +283,11 @@ def get_stats(year, event):
     # Get the laptime of every driver and save the data.
     items, labels, colors = [], [], []
     for driver in qualifying.results.index:
-        labels.append(qualifying.results.at[driver, "FullName"])
-        colors.append(qualifying.results.at[driver, "TeamColor"])
         lap = qualifying.laps.pick_driver(driver).pick_fastest()
-        items.append(lap["LapTime"].total_seconds())
+        if pd.notnull(lap["LapTime"]):
+            labels.append(qualifying.results.at[driver, "FullName"])
+            colors.append(qualifying.results.at[driver, "TeamColor"])
+            items.append(lap["LapTime"].total_seconds())
     
     quali_times = {
         "items": [{
@@ -305,6 +306,8 @@ def get_stats(year, event):
 
     compound_colors = {
         "SOFT": "#FF3333",
+        "SUPERSOFT": "#FF3333",
+        "HYPERSOFT": "#FF3333",
         "MEDIUM": "#FFF200",
         "HARD": "#EBEBEB",
         "INTERMEDIATE": "#39B54A",

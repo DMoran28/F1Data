@@ -19,11 +19,13 @@ const Stats = () => {
     }
     return data;
   }
-  const seasons = selectYearsFrom(2021);
+  const seasons = selectYearsFrom(2018);
 
   // Auxiliary object.
   const compound_colors = {
     "#FF3333": "SOFT",
+    "#FF3333": "SUPERSOFT",
+    "#FF3333": "HYPERSOFT",
     "#FFF200": "MEDIUM",
     "#EBEBEB": "HARD",
     "#39B54A": "INTERMEDIATE",
