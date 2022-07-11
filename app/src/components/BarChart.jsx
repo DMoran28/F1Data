@@ -43,7 +43,14 @@ function BarChart(props) {
       indexAxis: 'y',
       elements: { bar: { borderWidth: 2} },
       plugins: {
-        legend: { display: false },
+        legend: { 
+          display: props.legend,
+          align: "end",
+          labels: {
+            color: "rgba(255,255,255,0.7)",
+            font: { family: "F1Bold" }
+          }
+        },
         tooltip: {
           backgroundColor: "#1e2431",
           titleFont: { family: "F1Bold" },

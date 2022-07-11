@@ -206,35 +206,74 @@ def get_prediction(event, cluster):
     ).reset_index(drop=True)
     test.pop("RacePos")
 
+    # Get the actual results of the grand prix.
+    race = ff1.get_session(2021, event, 'R')
+    race.load(laps=False, telemetry=False, weather=False, messages=False)
+
     # Evaluate the neural network model with 2 or 5 clusters and make the 
     # prediction.
     prediction = model.predict(test)
 
-    data_points, labels_points, data_npoints, labels_npoints = [], [], [], []
+    # Class: With points (0).
+    correct_data, incorrect_data, labels_points = [], [], []
     for index, pred in enumerate(prediction):
-        if index in test_drivers.index:
-            # Class: With points (0).
-            if np.argmax(pred) == 0:
-                data_points.append(100 * np.max(pred))
-                labels_points.append(test_drivers.at[index, "Driver"])
-            # Class: Without points (1).
+        if index in test_drivers.index and np.argmax(pred) == 0:
+            result = race.results.loc[
+                race.results["FullName"] == test_drivers.at[index, "Driver"]
+            ]
+            
+            labels_points.append(test_drivers.at[index, "Driver"])
+            if result["Points"].tolist()[0] > 0:
+                correct_data.append(100 * np.max(pred))
+                incorrect_data.append(0)
             else:
-                data_npoints.append(100 * np.max(pred))
-                labels_npoints.append(test_drivers.at[index, "Driver"])
+                incorrect_data.append(100 * np.max(pred))
+                correct_data.append(0)
     
-    
+    item_points = [{
+        "label": "Correct prediction",
+        "data": correct_data,
+        "backgroundColor": "#dd0000",
+        "borderColor": "rgba(221, 0, 0, 0.7)"
+    }, {
+        "label": "Incorrect prediction",
+        "data": incorrect_data,
+        "backgroundColor": "#dd8800",
+        "borderColor": "rgba(221, 136, 0, 0.7)"
+    }]
+
+    # Class: Without points (1).
+    correct_data, incorrect_data, labels_npoints = [], [], []
+    for index, pred in enumerate(prediction):
+        if index in test_drivers.index and np.argmax(pred) == 1:
+            result = race.results.loc[
+                race.results["FullName"] == test_drivers.at[index, "Driver"]
+            ]
+            
+            labels_npoints.append(test_drivers.at[index, "Driver"])
+            if result["Points"].tolist()[0] > 0:
+                incorrect_data.append(100 * np.max(pred))
+                correct_data.append(0)
+            else:
+                correct_data.append(100 * np.max(pred))
+                incorrect_data.append(0)
+
+    item_npoints = [{
+        "label": "Correct prediction",
+        "data": correct_data,
+        "backgroundColor": "#ffffff",
+        "borderColor": "rgba(255, 255, 255, 0.7)"
+    }, {
+        "label": "Incorrect prediction",
+        "data": incorrect_data,
+        "backgroundColor": "#777777",
+        "borderColor": "rgba(119, 119, 119, 0.7)"
+    }]
+
     return {
-        "itemsPoints": [{
-            "data": data_points,
-            "backgroundColor": "#dd0000",
-            "borderColor": "rgba(221,0,0,0.7)"
-        }],
+        "itemsPoints": item_points,
         "labelsPoints": labels_points,
-        "itemsNPoints": [{
-            "data": data_npoints,
-            "backgroundColor": "white",
-            "borderColor": "rgba(255,255,255,0.7)"
-        }],
+        "itemsNPoints": item_npoints,
         "labelsNPoints": labels_npoints
     }
 

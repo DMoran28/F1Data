@@ -118,6 +118,7 @@ const Stats = () => {
             tooltip={{
               label: (item) => { return `${item.formattedValue}s`; }
             }}
+            legend={false}
             stacked={false}
             axis={true}
             ticks={[
@@ -137,6 +138,7 @@ const Stats = () => {
                 return `${item.formattedValue} laps - ${compound_colors[c]}`;
               }
             }}
+            legend={false}
             stacked={true}
             axis={true}
             ticks={[0, stats.raceStrat.laps]}

@@ -100,6 +100,7 @@ const Prediction = () => {
             tooltip={{
               label: (item) => { return `${item.formattedValue}% of accuracy`; }
             }}
+            legend={true}
             stacked={false}
             axis={false}
             ticks={[50, 100]}
@@ -112,6 +113,7 @@ const Prediction = () => {
             tooltip={{
               label: (item) => { return `${item.formattedValue}% of accuracy`; }
             }}
+            legend={true}
             stacked={false}
             axis={true}
             ticks={[50, 100]}
