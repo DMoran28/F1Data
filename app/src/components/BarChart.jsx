@@ -1,5 +1,5 @@
 // React and ChartJS dependencies.
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 
 // ChartJS tools.
@@ -13,8 +13,6 @@ import {
   Legend,
 } from 'chart.js';
 
-import { useEffect } from "react";
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -24,6 +22,7 @@ ChartJS.register(
   Legend
 );
 
+// BarChart component.
 function BarChart(props) {
   const [data, setData] = useState({
     labels: [],

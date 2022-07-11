@@ -350,9 +350,9 @@ def get_stats(year, event):
     # Get the championship points of every driver:
     schedule = ff1.get_event_schedule(season)
 
-    races, labels, drivers = [], [], set()
+    races, sprints, labels, drivers = [], [], [], set()
     for index in schedule.index:
-        if schedule.at[index, "RoundNumber"] != 0: 
+        if schedule.at[index, "RoundNumber"] != 0:
             labels.append(schedule.at[index, "Location"])
             race = ff1.get_session(
                 season, schedule.at[index, "RoundNumber"], 'R'
@@ -361,7 +361,8 @@ def get_stats(year, event):
                 laps=False, telemetry=False, weather=False, messages=False
             )
             races.append(race)
-
+            sprints.append(schedule.at[index, "EventFormat"] == "sprint")
+                
             for driver in race.drivers:
                 drivers.add(driver)
         if schedule.at[index, "EventName"] == event: break
@@ -369,10 +370,21 @@ def get_stats(year, event):
     items = []
     for driver in drivers:
         data, prev = [], 0
-        for race in races:
+        for index, race in enumerate(races):
+            points = 0
+            if sprints[index]:
+                sprint = ff1.get_session(season, index + 1, "SQ")
+                sprint.load(
+                    laps=False, telemetry=False, weather=False, messages=False
+                )
+                s = sprint.results.loc[sprint.results["DriverNumber"] == driver]
+
+                if not s.empty:
+                    points = int(s["Points"].tolist()[0])
+            
             result = race.results.loc[race.results["DriverNumber"] == driver]
             if not result.empty:
-                points = int(result["Points"].tolist()[0]) + prev
+                points = int(result["Points"].tolist()[0]) + points + prev
                 name = result["FullName"].tolist()[0]
                 color = result["TeamColor"].tolist()[0]
             else:

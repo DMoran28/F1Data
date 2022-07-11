@@ -148,7 +148,7 @@ const Stats = () => {
             xlabel="Grand Prixes"
             ylabel={"Number of points"}
             tooltip={{
-              title: () => { return "Cantidad de puntos" },
+              title: () => { return "Points" },
               label: (item) => {
                 const surname = item.dataset.label.split(" ")[1];
                 const abbr = surname.substring(0, 3).toUpperCase();
